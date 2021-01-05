@@ -1,0 +1,10 @@
+echo Creating release file structure
+mkdir -p GameData/SteeringTweaker
+cp ../files/ModuleManager.*.dll GameData
+cp ../files/ModuleManagerLicense.md GameData
+cp ../files/changelog.txt GameData/SteeringTweaker
+cp ../files/*.cfg GameData/SteeringTweaker
+cp ../LICENSE GameData/SteeringTweaker
+cp ../README.md GameData/SteeringTweaker
+cp ../src/bin/Release/SteeringTweaker.dll GameData/SteeringTweaker
+echo Done.

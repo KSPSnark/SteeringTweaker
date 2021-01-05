@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteeringTweaker", "SteeringTweaker.csproj", "{5BEA8200-0BD0-4E39-B71C-1406C15DBA40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BEA8200-0BD0-4E39-B71C-1406C15DBA40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BEA8200-0BD0-4E39-B71C-1406C15DBA40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86D0B6C1-BC32-4F6D-AC81-5AD480998AB2}
+	EndGlobalSection
+EndGlobal
