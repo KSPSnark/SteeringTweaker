@@ -9,15 +9,28 @@ namespace SteeringTweaker
     /// </summary>
     public class ModuleWheelSteeringTweak : PartModule
     {
+        // When the steering limiter is changed in the flight scene, we wait this many frames
+        // before applying the change to the part. This is because every time we update the
+        // steering, we're allocating a new FloatCurve from scratch on the heap, and when the
+        // user is sliding the slider around, that can cause a bunch of changes that could
+        // spam the heap. This way, we wait just a bit for it to settle down before actually
+        // making the change, rather than potentially churning on every frame.
+        private const int DELAY_COUNT = 5;
+
         private ModuleWheelSteering steeringModule = null;
         private FloatCurve originalSteeringCurve = null;
+        private float originalSteeringResponse = float.NaN;
         private FloatCurve scaledSteeringCurve = null;
+
+        // private variables for tracking changes (see above explanation for DELAY_COUNT)
+        private float previousSteeringLimiter = -1f;
+        private int changeCountdown = 0;
 
         /// <summary>
         /// Sets the steering limiter for the part.  When set to less than 100%, limits the steering range of the part.
         /// </summary>
-        [KSPField(guiName = "#SteeringTweaker_steeringLimiter", guiActive = false, guiActiveEditor = true, isPersistant = true, guiUnits ="%"),
-         UI_FloatRange(scene = UI_Scene.Editor, affectSymCounterparts = UI_Scene.All, controlEnabled = true, minValue = 1F, maxValue = 100F, stepIncrement = 1F)]
+        [KSPField(guiName = "#SteeringTweaker_steeringLimiter", guiActive = true, guiActiveEditor = true, isPersistant = true, guiUnits ="%"),
+         UI_FloatRange(scene = UI_Scene.All, affectSymCounterparts = UI_Scene.All, controlEnabled = true, minValue = 1F, maxValue = 100F, stepIncrement = 1F)]
         public float steeringLimiter = 100f;
 
         /// <summary>
@@ -37,7 +50,31 @@ namespace SteeringTweaker
                 return;
             }
             originalSteeringCurve = steeringModule.steeringCurve;
+            originalSteeringResponse = steeringModule.steeringResponse;
             UpdateSteering();
+        }
+
+        /// <summary>
+        /// Called on every Unity physics frame.
+        /// </summary>
+        private void FixedUpdate()
+        {
+            // We only do stuff in the flight scene, since no steering happens in the editor.
+            if (!HighLogic.LoadedSceneIsFlight) return;
+
+            // Has the steeringLimiter changed recently?
+            if (steeringLimiter == previousSteeringLimiter) return;
+
+            // Check whether we should update now, or wait a few more frames.
+            if (changeCountdown > 0)
+            {
+                --changeCountdown;
+                return;
+            }
+
+            // Time to change!
+            UpdateSteering();
+            changeCountdown = DELAY_COUNT;
         }
 
         /// <summary>
@@ -52,7 +89,8 @@ namespace SteeringTweaker
             steeringRange = Mathf.Max(steeringRange, 0.01f);
             steeringModule.steeringCurve = scaledSteeringCurve;
             steeringModule.steeringRange = steeringRange;
-            steeringModule.steeringResponse *= steeringLimiter * 0.01f;
+            steeringModule.steeringResponse = originalSteeringResponse * steeringLimiter * 0.01f;
+            previousSteeringLimiter = steeringLimiter;
         }
 
         /// <summary>

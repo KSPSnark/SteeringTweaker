@@ -1,2 +1,5 @@
 Release v1.0  (2021-01-05)
 * Initial release.
+
+Release v1.0.1 (2021-01-06)
+* Add the ability to adjust the steering limiter in flight scene (not just the editor).
