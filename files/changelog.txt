@@ -1,5 +1,10 @@
-Release v1.0  (2021-01-05)
-* Initial release.
+Release v1.1 (2021-01-10)
+* Add a new "adaptive" steering mode that allows dynamically changing the steering response according to speed.
+* The previous mode is now named "constant" and is still available.  Player can select one mode or the other via UI button or action group.
+* Added an axis group binding to the steering limiter when it's in "constant" mode.
 
 Release v1.0.1 (2021-01-06)
 * Add the ability to adjust the steering limiter in flight scene (not just the editor).
+
+Release v1.0  (2021-01-05)
+* Initial release.

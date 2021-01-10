@@ -51,6 +51,7 @@
     <Compile Include="ModuleWheelSteeringTweak.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen.cs" />
+    <Compile Include="SteeringState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

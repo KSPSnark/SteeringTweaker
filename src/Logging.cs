@@ -38,6 +38,12 @@ namespace SteeringTweaker
             return (part == null) ? "<null part>" : ((part.partInfo == null) ? part.partName : part.partInfo.title);
         }
 
+        public static string GetUniqueTitle(this Part part)
+        {
+            string title = part.GetTitle();
+            return (part == null) ? title : (title + " " + part.persistentId);
+        }
+
         /// <summary>
         /// Useful for debugging per-update-frame events without spamming the log to uselessness.
         /// </summary>
